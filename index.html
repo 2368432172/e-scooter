@@ -59,10 +59,10 @@
     .hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 52px}
     .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80') center/cover}
     .hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(19,17,16,0.88) 0%,rgba(19,17,16,0.4) 45%,rgba(19,17,16,0.7) 100%)}
-    .hero-content{position:relative;max-width:880px;padding:140px 0 100px}
+    .hero-inner{position:relative;width:100%;max-width:1400px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:140px 0 100px} .hero-content{} .hero-img-right{border-radius:24px;overflow:hidden;aspect-ratio:4/5;background:url("https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=900&q=80") center/cover;box-shadow:0 40px 80px rgba(0,0,0,0.5);animation:fadeUp .8s .3s ease both}
     .hero-tag{display:inline-block;background:var(--accent-soft);border:1px solid rgba(255,107,61,0.2);padding:10px 24px;border-radius:100px;font-size:1rem;font-weight:600;color:var(--accent);margin-bottom:36px;animation:fadeUp .8s ease both}
-    .hero h1{font-size:clamp(3.5rem,9vw,7.5rem);font-weight:400;line-height:.95;letter-spacing:-2px;margin-bottom:32px;color:var(--text);animation:fadeUp .8s .1s ease both}
-    .hero h1 em{color:var(--accent);font-style:italic}
+    .hero h1{font-size:clamp(3.5rem,9vw,7.5rem);font-weight:800;line-height:.95;letter-spacing:-2px;margin-bottom:32px;color:var(--text);animation:fadeUp .8s .1s ease both}
+    .hero h1 em{color:var(--accent)}
     .hero-desc{font-size:1.45rem;color:var(--text-mid);max-width:520px;line-height:1.65;margin-bottom:48px;animation:fadeUp .8s .2s ease both;font-weight:300}
     .hero-actions{display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
     .btn-primary{background:var(--accent);color:#fff;padding:20px 44px;border-radius:100px;font-weight:700;font-size:1.15rem;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:inherit}
@@ -260,6 +260,8 @@
     @media(max-width:1024px){
       nav{padding:16px 32px}section{padding:88px 32px}
       .hero{padding:0 32px}
+      .hero-inner{grid-template-columns:1fr;padding:140px 0 80px}
+      .hero-img-right{display:none}
       .pc{grid-template-columns:1fr}.pc-img{min-height:260px}
       .about-hero{grid-template-columns:1fr;gap:48px;padding:160px 32px 60px}
       .about-cols{grid-template-columns:1fr}
@@ -338,9 +340,10 @@
 
     <section class="hero">
       <div class="hero-bg"></div><div class="hero-overlay"></div>
+      <div class="hero-inner">
       <div class="hero-content">
         <div class="hero-tag">Kiwi owned · Auckland based</div>
-        <h1>Ride electric.<br><em>Ride free.</em></h1>
+        <h1>Ride electric.<br>Ride free.</h1>
         <p class="hero-desc">E-bikes and e-scooters for the way New Zealand actually moves. City commutes, coastal paths, weekend exploring — powered by us, ridden by you.</p>
         <div class="hero-actions">
           <button class="btn-primary" onclick="navigateTo('shop')">Browse Our Rides</button>
@@ -351,6 +354,8 @@
           <div class="hp-item"><h3>3+ yrs</h3><p>In the NZ market</p></div>
           <div class="hp-item"><h3>NZ wide</h3><p>Ships nationwide</p></div>
         </div>
+      </div>
+      <div class="hero-img-right"></div>
       </div>
     </section>
 
@@ -402,9 +407,7 @@
       </div>
     </section>
 
-    <div class="ls reveal">
-      <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80')"></div>
-      <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=500&q=80')"></div>
+          <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=500&q=80')"></div>
       <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=500&q=80')"></div>
       <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1597075903401-1a1060e0005f?w=500&q=80')"></div>
     </div>
