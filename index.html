@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Electric Rides NZ — E-Bikes & E-Scooters for Aotearoa</title>
+  <meta name="description" content="Kiwi-owned electric rides. E-bikes and e-scooters built for New Zealand adventures.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Warm espresso dark palette — no blue, no grey */
+      --bg:#131110;
+      --card:#1D1A17;
+      --card-hover:#252220;
+      --surface:#181614;
+      --elevated:#2A2724;
+
+      /* Coral-orange accent — energetic, sunset warmth */
+      --accent:#FF6B3D;
+      --accent-hover:#FF8456;
+      --accent-soft:rgba(255,107,61,0.10);
+      --accent-glow:rgba(255,107,61,0.25);
+
+      /* Secondary — fresh teal for tags */
+      --teal:#4ECDC4;
+
+      /* Warm text — cream, not stark white */
+      --text:#F5EFE6;
+      --text-mid:#A8A098;
+      --text-dim:#6B645C;
+
+      --border:rgba(168,160,152,0.07);
+      --r:20px;
+      --sh:0 10px 50px rgba(0,0,0,0.35);
+      --sh-sm:0 3px 20px rgba(0,0,0,0.25);
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;font-size:17px}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.65}
+    .page{display:none}.page.active{display:block}
+
+    /* ---- NAV ---- */
+    nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:20px 52px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,box-shadow .4s}
+    nav.scrolled{background:rgba(19,17,16,0.92);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);box-shadow:0 1px 30px rgba(0,0,0,0.4)}
+    .nav-logo{cursor:pointer;display:flex;align-items:center;gap:10px;text-decoration:none}
+    .nav-logo svg{height:26px;width:auto;flex-shrink:0}
+    .nav-wordmark{font-weight:800;font-size:1.2rem;letter-spacing:1.5px;color:var(--text);text-transform:uppercase}
+    .nav-links{display:flex;gap:40px;align-items:center;list-style:none}
+    .nav-links a{color:var(--text-mid);text-decoration:none;font-weight:600;font-size:1.1rem;transition:color .2s;cursor:pointer}
+    .nav-links a:hover,.nav-links a.active{color:var(--accent)}
+    .nav-cta{background:var(--accent)!important;color:#fff!important;padding:13px 30px;border-radius:100px;font-weight:700!important;font-size:1.05rem!important;transition:transform .2s,box-shadow .2s!important}
+    .nav-cta:hover{transform:scale(1.04);box-shadow:0 6px 28px var(--accent-glow)}
+    .hamburger{display:none;flex-direction:column;gap:6px;cursor:pointer;z-index:1001}
+    .hamburger span{width:28px;height:2.5px;border-radius:2px;background:var(--text);transition:.3s}
+
+    /* ---- HERO ---- */
+    .hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 52px}
+    .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80') center/cover}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(19,17,16,0.88) 0%,rgba(19,17,16,0.4) 45%,rgba(19,17,16,0.7) 100%)}
+    .hero-content{position:relative;max-width:880px;padding:140px 0 100px}
+    .hero-tag{display:inline-block;background:var(--accent-soft);border:1px solid rgba(255,107,61,0.2);padding:10px 24px;border-radius:100px;font-size:1rem;font-weight:600;color:var(--accent);margin-bottom:36px;animation:fadeUp .8s ease both}
+    .hero h1{font-family:'Instrument Serif',serif;font-size:clamp(3.5rem,9vw,7.5rem);font-weight:400;line-height:.95;letter-spacing:-2px;margin-bottom:32px;color:var(--text);animation:fadeUp .8s .1s ease both}
+    .hero h1 em{color:var(--accent);font-style:italic}
+    .hero-desc{font-size:1.45rem;color:var(--text-mid);max-width:520px;line-height:1.65;margin-bottom:48px;animation:fadeUp .8s .2s ease both;font-weight:300}
+    .hero-actions{display:flex;gap:16px;flex-wrap:wrap;animation:fadeUp .8s .3s ease both}
+    .btn-primary{background:var(--accent);color:#fff;padding:20px 44px;border-radius:100px;font-weight:700;font-size:1.15rem;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:inherit}
+    .btn-primary:hover{transform:scale(1.04);box-shadow:0 8px 36px var(--accent-glow)}
+    .btn-ghost{background:rgba(245,239,230,0.06);color:var(--text);padding:20px 44px;border-radius:100px;font-weight:600;font-size:1.15rem;border:1px solid rgba(245,239,230,0.12);cursor:pointer;transition:all .2s;font-family:inherit}
+    .btn-ghost:hover{border-color:rgba(245,239,230,0.3);background:rgba(245,239,230,0.1)}
+    .hero-proof{display:flex;gap:64px;margin-top:80px;padding-top:48px;border-top:1px solid rgba(245,239,230,0.08);animation:fadeUp .8s .4s ease both}
+    .hp-item h3{font-family:'Instrument Serif',serif;font-size:2.8rem;font-weight:400;color:var(--text)}
+    .hp-item p{font-size:1.05rem;color:var(--text-dim);margin-top:4px}
+
+    /* ---- SECTIONS ---- */
+    section{padding:120px 52px}
+    .section-label{font-size:.95rem;color:var(--accent);text-transform:uppercase;letter-spacing:3px;margin-bottom:16px;font-weight:700}
+    .section-heading{font-family:'Instrument Serif',serif;font-size:clamp(2.5rem,5vw,4rem);font-weight:400;letter-spacing:-1px;line-height:1.1;margin-bottom:20px}
+    .section-desc{font-size:1.3rem;color:var(--text-mid);max-width:560px;line-height:1.65;font-weight:300}
+
+    /* ---- CATEGORIES ---- */
+    .categories-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:60px}
+    .cat-card{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:16/10;cursor:pointer;box-shadow:var(--sh)}
+    .cat-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .7s}
+    .cat-card:hover .cat-bg{transform:scale(1.05)}
+    .cat-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(19,17,16,0.92) 0%,rgba(19,17,16,0.1) 65%)}
+    .cat-body{position:absolute;bottom:0;left:0;right:0;padding:44px;z-index:2}
+    .cat-body h3{font-family:'Instrument Serif',serif;font-size:2.6rem;font-weight:400;margin-bottom:10px}
+    .cat-body p{color:var(--text-mid);font-size:1.15rem;margin-bottom:20px;max-width:340px}
+    .cat-link{color:var(--accent);font-weight:700;font-size:1.05rem;transition:letter-spacing .2s}
+    .cat-card:hover .cat-link{letter-spacing:1px}
+
+    /* ---- PRODUCTS ---- */
+    .products-section{background:var(--surface)}
+    .products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-top:56px}
+    .pc{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm);transition:transform .35s,box-shadow .35s,border-color .35s;border:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr}
+    .pc:hover{transform:translateY(-5px);box-shadow:var(--sh);border-color:rgba(255,107,61,0.12)}
+    .pc-img{background-size:cover;background-position:center;min-height:320px;position:relative}
+    .pc-badge{position:absolute;top:20px;left:20px;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;padding:7px 16px;border-radius:100px;letter-spacing:.3px}
+    .pc-badge.new{background:var(--teal);color:var(--bg)}
+    .pc-body{padding:40px 36px;display:flex;flex-direction:column;justify-content:center}
+    .pc-type{font-size:.85rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px}
+    .pc-name{font-family:'Instrument Serif',serif;font-size:1.9rem;font-weight:400;line-height:1.15;margin-bottom:24px}
+    .pc-specs{display:grid;grid-template-columns:1fr 1fr;gap:18px 28px;margin-bottom:28px}
+    .sp{display:flex;flex-direction:column}
+    .sp-label{font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:3px}
+    .sp-val{font-size:1.4rem;font-weight:700;color:var(--text)}
+    .pc-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--border)}
+    .pc-price-wrap{display:flex;flex-direction:column;gap:2px}
+    .pc-price-was{font-size:1rem;color:var(--text-dim);text-decoration:line-through;font-weight:500}
+    .pc-price{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;color:var(--accent)}
+    .pc-btn{background:var(--accent);color:#fff;border:none;padding:14px 28px;border-radius:100px;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit;transition:all .2s}
+    .pc-btn:hover{box-shadow:0 6px 24px var(--accent-glow);transform:scale(1.03)}
+
+    /* ---- LIFESTYLE ---- */
+    .ls{padding:0;display:grid;grid-template-columns:repeat(4,1fr);height:400px}
+    .ls-img{background-size:cover;background-position:center;position:relative}
+    .ls-img::after{content:'';position:absolute;inset:0;background:rgba(19,17,16,0.15);transition:background .4s}
+    .ls-img:hover::after{background:rgba(255,107,61,0.08)}
+
+    /* ---- TRUST ---- */
+    .trust{background:var(--surface)}
+    .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:56px}
+    .tc{padding:44px 32px;background:var(--card);border-radius:var(--r);border:1px solid var(--border);transition:border-color .3s}
+    .tc:hover{border-color:rgba(255,107,61,0.18)}
+    .tc-num{font-family:'Instrument Serif',serif;font-size:3.2rem;font-weight:400;color:var(--accent);line-height:1;margin-bottom:22px}
+    .tc h4{font-size:1.3rem;font-weight:700;margin-bottom:14px}
+    .tc p{font-size:1.1rem;color:var(--text-mid);line-height:1.7}
+
+    /* ---- CTA ---- */
+    .cta{background:var(--card);text-align:center;padding:110px 52px;position:relative;overflow:hidden}
+    .cta::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(255,107,61,0.06) 0%,transparent 60%);pointer-events:none}
+    .cta h2{font-family:'Instrument Serif',serif;font-size:clamp(2.6rem,5vw,4.2rem);font-weight:400;letter-spacing:-1px;margin-bottom:20px;position:relative}
+    .cta p{font-size:1.35rem;color:var(--text-mid);margin-bottom:40px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6;font-weight:300;position:relative}
+    .btn-accent{background:var(--accent);color:#fff;padding:20px 48px;border-radius:100px;font-weight:800;font-size:1.15rem;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:inherit;position:relative}
+    .btn-accent:hover{transform:scale(1.04);box-shadow:0 8px 36px var(--accent-glow)}
+
+    /* ---- SHOP ---- */
+    .shop-header{padding:170px 52px 60px;text-align:center}
+    .filter-bar{display:flex;justify-content:center;gap:12px;margin-top:44px;flex-wrap:wrap}
+    .fb{padding:13px 30px;border-radius:100px;border:1.5px solid rgba(245,239,230,0.08);background:transparent;color:var(--text-mid);font-family:inherit;font-weight:600;font-size:1.05rem;cursor:pointer;transition:all .2s}
+    .fb:hover,.fb.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+    .shop-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;padding:52px 52px 120px;max-width:1400px;margin:0 auto}
+    .sc{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm);border:1px solid var(--border);transition:transform .3s,box-shadow .3s,border-color .3s}
+    .sc:hover{transform:translateY(-5px);box-shadow:var(--sh);border-color:rgba(255,107,61,0.12)}
+    .sc-img{width:100%;aspect-ratio:4/3;background-size:cover;background-position:center;position:relative}
+    .sc-body{padding:32px}
+    .sc-type{font-size:.8rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:8px}
+    .sc-name{font-family:'Instrument Serif',serif;font-size:1.7rem;font-weight:400;margin-bottom:16px}
+    .sc-specs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+    .sc-spec{background:var(--elevated);padding:8px 16px;border-radius:8px;font-size:.95rem;font-weight:600;color:var(--text)}
+    .sc-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid var(--border)}
+    .sc-price{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--accent)}
+    .sc-btn{background:var(--accent);color:#fff;border:none;padding:13px 26px;border-radius:100px;font-weight:700;font-size:.95rem;cursor:pointer;font-family:inherit;transition:all .2s}
+    .sc-btn:hover{box-shadow:0 6px 20px var(--accent-glow)}
+    .sc-price-wrap{display:flex;flex-direction:column;gap:2px}
+    .sc-price-was{font-size:.9rem;color:var(--text-dim);text-decoration:line-through;font-weight:500}
+    .sc-price{font-family:'Instrument Serif',serif;font-size:1.8rem;color:var(--accent)}
+
+    /* ---- SALE BADGE ---- */
+    .sale-badge{position:absolute;top:20px;right:20px;background:#e63a1e;color:#fff;font-weight:800;font-size:.78rem;padding:6px 14px;border-radius:100px;letter-spacing:.5px;text-transform:uppercase}
+
+    /* ---- MODAL ---- */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.75);backdrop-filter:blur(8px);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
+    .modal-overlay.open{opacity:1;pointer-events:all}
+    .modal{background:var(--card);border-radius:28px;padding:48px 44px;max-width:500px;width:90%;border:1px solid rgba(255,107,61,0.15);box-shadow:0 40px 100px rgba(0,0,0,0.6);transform:translateY(24px) scale(0.97);transition:transform .35s cubic-bezier(.2,.8,.3,1)}
+    .modal-overlay.open .modal{transform:translateY(0) scale(1)}
+    .modal-close{position:absolute;top:20px;right:22px;background:none;border:none;color:var(--text-dim);font-size:1.6rem;cursor:pointer;line-height:1;transition:color .2s}
+    .modal-close:hover{color:var(--text)}
+    .modal-product{display:flex;align-items:center;gap:18px;margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid var(--border)}
+    .modal-product-img{width:72px;height:72px;border-radius:14px;background-size:cover;background-position:center;flex-shrink:0}
+    .modal-product-name{font-family:'Instrument Serif',serif;font-size:1.35rem;font-weight:400;margin-bottom:4px}
+    .modal-product-price{color:var(--accent);font-weight:700;font-size:1.1rem}
+    .modal-product-was{color:var(--text-dim);font-size:.9rem;text-decoration:line-through;margin-left:8px;font-weight:400}
+    .modal h3{font-family:'Instrument Serif',serif;font-size:1.7rem;font-weight:400;margin-bottom:8px}
+    .modal p.modal-sub{color:var(--text-mid);font-size:1rem;margin-bottom:28px}
+    .modal-field{margin-bottom:18px}
+    .modal-field label{display:block;font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px}
+    .modal-field input{width:100%;background:var(--elevated);border:1.5px solid rgba(245,239,230,0.08);border-radius:12px;padding:16px 18px;color:var(--text);font-family:inherit;font-size:1rem;outline:none;transition:border-color .2s}
+    .modal-field input:focus{border-color:rgba(255,107,61,0.45)}
+    .modal-field input::placeholder{color:var(--text-dim)}
+    .modal-submit{width:100%;background:var(--accent);color:#fff;border:none;padding:18px;border-radius:100px;font-weight:800;font-size:1.05rem;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s;margin-top:8px}
+    .modal-submit:hover{transform:scale(1.02);box-shadow:0 8px 32px var(--accent-glow)}
+
+    /* ---- ORDER CONFIRMED ---- */
+    .confirm-overlay{position:fixed;inset:0;background:var(--bg);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s}
+    .confirm-overlay.open{opacity:1;pointer-events:all}
+    .confirm-box{text-align:center;max-width:520px;padding:0 24px}
+    .confirm-icon{width:88px;height:88px;border-radius:50%;background:var(--accent-soft);border:2px solid rgba(255,107,61,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 32px;animation:popIn .5s cubic-bezier(.2,.8,.3,1) both}
+    @keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}
+    .confirm-icon svg{width:40px;height:40px;color:var(--accent)}
+    .confirm-box h2{font-family:'Instrument Serif',serif;font-size:3rem;font-weight:400;margin-bottom:16px;animation:fadeUp .6s .1s ease both}
+    .confirm-box p{color:var(--text-mid);font-size:1.2rem;line-height:1.7;margin-bottom:40px;animation:fadeUp .6s .2s ease both}
+    .confirm-order-detail{background:var(--card);border-radius:20px;padding:28px 32px;border:1px solid var(--border);text-align:left;margin-bottom:36px;animation:fadeUp .6s .3s ease both}
+    .confirm-order-detail h4{font-size:.8rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-dim);font-weight:700;margin-bottom:16px}
+    .confirm-order-row{display:flex;justify-content:space-between;margin-bottom:10px;font-size:1.05rem}
+    .confirm-order-row:last-child{margin-bottom:0;padding-top:10px;border-top:1px solid var(--border);font-weight:700;color:var(--text)}
+    .confirm-back{background:var(--accent);color:#fff;border:none;padding:18px 44px;border-radius:100px;font-weight:800;font-size:1.05rem;cursor:pointer;font-family:inherit;transition:transform .2s,box-shadow .2s;animation:fadeUp .6s .4s ease both}
+    .confirm-back:hover{transform:scale(1.04);box-shadow:0 8px 32px var(--accent-glow)}
+
+    /* ---- ABOUT ---- */
+    .about-hero{padding:180px 52px 100px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1300px;margin:0 auto}
+    .about-hero-text .section-heading{max-width:480px}
+    .about-img{aspect-ratio:4/5;border-radius:var(--r);background:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80') center/cover;box-shadow:var(--sh)}
+    .about-content{max-width:1300px;margin:0 auto}
+    .about-cols{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;margin-top:48px}
+    .about-cols p{color:var(--text-mid);line-height:1.85;font-size:1.2rem;margin-bottom:24px}
+    .about-values{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:56px;max-width:1300px;margin-left:auto;margin-right:auto}
+    .av{background:var(--card);border-radius:var(--r);padding:48px 36px;border:1px solid var(--border)}
+    .av-n{font-family:'Instrument Serif',serif;font-size:2.5rem;color:var(--accent);margin-bottom:16px}
+    .av h4{font-size:1.3rem;font-weight:700;margin-bottom:12px}
+    .av p{font-size:1.1rem;color:var(--text-mid);line-height:1.7}
+    .kiwi{background:var(--elevated);border:1px solid rgba(255,107,61,0.1);border-radius:var(--r);padding:60px;display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center;margin-top:64px;max-width:1300px;margin-left:auto;margin-right:auto}
+    .kiwi-flag{font-size:1.4rem;font-weight:800;color:var(--accent);writing-mode:vertical-lr;text-orientation:mixed;letter-spacing:4px;text-transform:uppercase}
+    .kiwi h3{font-family:'Instrument Serif',serif;font-size:2rem;font-weight:400;margin-bottom:14px}
+    .kiwi p{color:var(--text-mid);line-height:1.75;font-size:1.15rem}
+
+    /* ---- INFO ---- */
+    .info{background:var(--surface)}
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:48px}
+    .info-card{background:var(--card);border-radius:var(--r);padding:48px;border:1px solid var(--border)}
+    .info-card h3{font-family:'Instrument Serif',serif;font-size:1.8rem;font-weight:400;margin-bottom:16px}
+    .info-card p{color:var(--text-mid);line-height:1.8;font-size:1.1rem;margin-bottom:14px}
+    .info-card p:last-child{margin-bottom:0}
+
+    /* ---- CONTACT ---- */
+    .contact{max-width:1300px;margin:0 auto}
+    .contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;margin-top:48px}
+    .cc{background:var(--card);border-radius:var(--r);padding:44px 36px;border:1px solid var(--border)}
+    .cc h4{font-size:1.25rem;font-weight:700;margin-bottom:12px}
+    .cc p{color:var(--text-mid);font-size:1.1rem;line-height:1.7}
+    .cc a{color:var(--accent);text-decoration:none;font-weight:600}
+    .cc a:hover{text-decoration:underline}
+
+    /* ---- FOOTER ---- */
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:76px 52px 40px}
+    .f-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr;gap:52px;margin-bottom:56px}
+    .f-brand p{color:var(--text-dim);font-size:1.1rem;line-height:1.7;margin-top:16px}
+    .f-logo{display:flex;align-items:center;gap:10px}
+    .f-logo svg{height:22px}
+    .f-logo span{font-weight:800;font-size:1.1rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text)}
+    .f-col h4{font-size:.85rem;text-transform:uppercase;letter-spacing:2.5px;color:var(--text-dim);margin-bottom:24px;font-weight:700}
+    .f-col a{display:block;color:var(--text-mid);text-decoration:none;font-size:1.1rem;margin-bottom:16px;transition:color .2s;cursor:pointer}
+    .f-col a:hover{color:var(--accent)}
+    .f-bottom{border-top:1px solid var(--border);padding-top:30px;display:flex;justify-content:space-between;align-items:center;font-size:1rem;color:var(--text-dim)}
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+    .reveal.visible{opacity:1;transform:translateY(0)}
+
+    /* ---- RESPONSIVE ---- */
+    @media(max-width:1200px){
+      .products-grid,.shop-grid{grid-template-columns:1fr}
+      .pc{grid-template-columns:1fr 1fr}
+      .trust-grid{grid-template-columns:repeat(2,1fr)}
+      .f-grid{grid-template-columns:1fr 1fr;gap:40px}
+    }
+    @media(max-width:1024px){
+      nav{padding:16px 32px}section{padding:88px 32px}
+      .hero{padding:0 32px}
+      .pc{grid-template-columns:1fr}.pc-img{min-height:260px}
+      .about-hero{grid-template-columns:1fr;gap:48px;padding:160px 32px 60px}
+      .about-cols{grid-template-columns:1fr}
+      .about-values{grid-template-columns:repeat(2,1fr)}
+      .info-grid,.contact-grid{grid-template-columns:1fr}
+      .shop-header{padding:150px 32px 50px}.shop-grid{padding:40px 32px 88px}
+      .ls{height:280px}
+      .kiwi{grid-template-columns:1fr;padding:44px 36px}
+      .kiwi-flag{writing-mode:horizontal-tb}
+    }
+    @media(max-width:768px){
+      html{font-size:16px}nav{padding:14px 20px}
+      .nav-links{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(19,17,16,0.97);flex-direction:column;justify-content:center;align-items:center;gap:30px;backdrop-filter:blur(20px)}
+      .nav-links.open{display:flex}
+      .nav-links a{font-size:1.6rem!important;color:var(--text)!important}
+      .nav-links a:hover{color:var(--accent)!important}
+      .nav-cta{font-size:1.3rem!important;padding:18px 40px!important}
+      .hamburger{display:flex}
+      section{padding:72px 20px}
+      .hero{padding:0 20px}.hero-content{padding:120px 0 72px}
+      .hero h1{font-size:clamp(3rem,11vw,4.5rem);letter-spacing:-1px}
+      .hero-desc{font-size:1.2rem}
+      .hero-proof{gap:32px;flex-wrap:wrap;margin-top:56px;padding-top:36px}
+      .hp-item h3{font-size:2.2rem}
+      .btn-primary,.btn-ghost{padding:18px 36px;font-size:1.05rem;width:100%;text-align:center}
+      .categories-grid{grid-template-columns:1fr}.cat-body h3{font-size:2rem}
+      .products-grid,.shop-grid{grid-template-columns:1fr}
+      .pc{grid-template-columns:1fr}.pc-img{min-height:240px}
+      .pc-body{padding:32px 24px}
+      .trust-grid{grid-template-columns:1fr}
+      .ls{grid-template-columns:1fr 1fr;height:auto}
+      .ls-img{aspect-ratio:1}
+      .shop-grid{padding:32px 20px 80px}.shop-header{padding:120px 20px 40px}
+      .f-grid{grid-template-columns:1fr;gap:32px}
+      .f-bottom{flex-direction:column;gap:14px;text-align:center}
+      .about-hero{padding:120px 20px 48px}
+      .about-values{grid-template-columns:1fr}
+      .cta{padding:72px 20px}
+      .btn-accent{padding:18px 40px;font-size:1.05rem}
+      .info-card{padding:36px 28px}
+      .kiwi{padding:36px 24px;gap:24px}
+    }
+    @media(max-width:420px){
+      html{font-size:15px}
+      .hero h1{font-size:2.8rem}
+      .hero-proof{gap:24px}.hp-item h3{font-size:1.8rem}
+      .cat-body{padding:28px}.cat-body h3{font-size:1.7rem}
+      .pc-body{padding:28px 20px}.pc-name{font-size:1.5rem}
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo bolt SVG -->
+  <svg style="display:none"><defs>
+    <symbol id="bolt-icon" viewBox="0 0 24 32">
+      <path d="M14.5 0L5 18h7.5L9.5 32 22 13h-8l5-13z" fill="#FF6B3D"/>
+    </symbol>
+  </defs></svg>
+
+  <nav id="navbar">
+    <div class="nav-logo" onclick="navigateTo('home')">
+      <svg><use href="#bolt-icon"/></svg>
+      <span class="nav-wordmark">Electric Rides</span>
+    </div>
+    <ul class="nav-links" id="navLinks">
+      <a onclick="navigateTo('home')" class="active" data-page="home">Home</a>
+      <a onclick="navigateTo('shop')" data-page="shop">Shop</a>
+      <a onclick="navigateTo('about')" data-page="about">About</a>
+      <a onclick="navigateTo('shop')" class="nav-cta">Shop Now</a>
+    </ul>
+    <div class="hamburger" onclick="toggleMobile()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- ==================== HOME ==================== -->
+  <div class="page active" id="page-home">
+
+    <section class="hero">
+      <div class="hero-bg"></div><div class="hero-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-tag">Kiwi owned · Auckland based</div>
+        <h1>Ride electric.<br><em>Ride free.</em></h1>
+        <p class="hero-desc">E-bikes and e-scooters for the way New Zealand actually moves. City commutes, coastal paths, weekend exploring — powered by us, ridden by you.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="navigateTo('shop')">Browse Our Rides</button>
+          <button class="btn-ghost" onclick="navigateTo('about')">Our Story</button>
+        </div>
+        <div class="hero-proof">
+          <div class="hp-item"><h3>200+</h3><p>Rides sold across NZ</p></div>
+          <div class="hp-item"><h3>3+ yrs</h3><p>In the NZ market</p></div>
+          <div class="hp-item"><h3>NZ wide</h3><p>Ships nationwide</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-label reveal">What We Ride</div>
+      <h2 class="section-heading reveal">Two ways to go electric.</h2>
+      <p class="section-desc reveal">Whether it's your daily commute or a weekend rip — we've got you.</p>
+      <div class="categories-grid reveal">
+        <div class="cat-card" onclick="navigateTo('shop')">
+          <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1632516643720-e7f5d7d6ecc9?w=900&q=80')"></div>
+          <div class="cat-body"><h3>E-Bikes</h3><p>Power-assisted rides for commuting, trails, and everything in between.</p><span class="cat-link">See the range →</span></div>
+        </div>
+        <div class="cat-card" onclick="navigateTo('shop')">
+          <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1604868189366-908e366b2737?w=900&q=80')"></div>
+          <div class="cat-body"><h3>E-Scooters</h3><p>Compact, foldable, and fast. The smartest way to get around town.</p><span class="cat-link">See the range →</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="products-section">
+      <div class="section-label reveal">Our Range</div>
+      <h2 class="section-heading reveal">Four rides. Every need covered.</h2>
+      <p class="section-desc reveal">Short hops or long hauls — pick the range that fits your life.</p>
+      <div class="products-grid reveal">
+        <div class="pc">
+          <div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&q=80')"><span class="pc-badge">Sale</span></div>
+          <div class="pc-body"><div class="pc-type">E-Bike · Pro</div><h3 class="pc-name">Bike Pro</h3>
+            <div class="pc-specs"><div class="sp"><span class="sp-label">Range</span><span class="sp-val">80 km</span></div><div class="sp"><span class="sp-label">Motor</span><span class="sp-val">250W</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">24 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">4 hrs</span></div></div>
+            <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">Was $1,299</span><span class="pc-price">$649</span></div><button class="pc-btn" onclick="openModal('Bike Pro','649','1,299','https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=200&q=80')">Add to Cart</button></div></div>
+        </div>
+        <div class="pc">
+          <div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80')"></div>
+          <div class="pc-body"><div class="pc-type">E-Bike · Everyday</div><h3 class="pc-name">Bike Cruiser</h3>
+            <div class="pc-specs"><div class="sp"><span class="sp-label">Range</span><span class="sp-val">45 km</span></div><div class="sp"><span class="sp-label">Motor</span><span class="sp-val">250W</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">22 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">3.5 hrs</span></div></div>
+            <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">Was $899</span><span class="pc-price">$499</span></div><button class="pc-btn" onclick="openModal('Bike Cruiser','499','899','https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=200&q=80')">Add to Cart</button></div></div>
+        </div>
+        <div class="pc">
+          <div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=800&q=80')"><span class="pc-badge new">Sale</span></div>
+          <div class="pc-body"><div class="pc-type">E-Scooter · Pro</div><h3 class="pc-name">Scooter Pro</h3>
+            <div class="pc-specs"><div class="sp"><span class="sp-label">Range</span><span class="sp-val">55 km</span></div><div class="sp"><span class="sp-label">Motor</span><span class="sp-val">350W</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">16 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">4 hrs</span></div></div>
+            <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">Was $899</span><span class="pc-price">$599</span></div><button class="pc-btn" onclick="openModal('Scooter Pro','599','899','https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=200&q=80')">Add to Cart</button></div></div>
+        </div>
+        <div class="pc">
+          <div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80')"></div>
+          <div class="pc-body"><div class="pc-type">E-Scooter · Everyday</div><h3 class="pc-name">Scooter Dart</h3>
+            <div class="pc-specs"><div class="sp"><span class="sp-label">Range</span><span class="sp-val">30 km</span></div><div class="sp"><span class="sp-label">Motor</span><span class="sp-val">300W</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">13 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">3 hrs</span></div></div>
+            <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">Was $749</span><span class="pc-price">$449</span></div><button class="pc-btn" onclick="openModal('Scooter Dart','449','749','https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=200&q=80')">Add to Cart</button></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ls reveal">
+      <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=500&q=80')"></div>
+      <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=500&q=80')"></div>
+      <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=500&q=80')"></div>
+      <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1597075903401-1a1060e0005f?w=500&q=80')"></div>
+    </div>
+
+    <section class="trust">
+      <div class="section-label reveal">Why Us</div>
+      <h2 class="section-heading reveal">Built for Kiwis, by Kiwis.</h2>
+      <div class="trust-grid reveal">
+        <div class="tc"><div class="tc-num">01</div><h4>Kiwi Owned</h4><p>Auckland-based, NZ owned and operated for 3+ years. Your money supports a local crew.</p></div>
+        <div class="tc"><div class="tc-num">02</div><h4>NZ Road Legal</h4><p>Every ride meets NZ safety standards. E-bikes at 250W, scooters at 300W — no licence needed.</p></div>
+        <div class="tc"><div class="tc-num">03</div><h4>Ships Nationwide</h4><p>Delivered to your door anywhere in NZ. Free pickup available from central Auckland.</p></div>
+        <div class="tc"><div class="tc-num">04</div><h4>12-Month Warranty</h4><p>Full warranty on every ride with NZ-based support. If something goes wrong, we sort it.</p></div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <h2>Your next adventure<br>starts here.</h2>
+      <p>Join hundreds of Kiwis already riding electric. Better for you, better for Aotearoa.</p>
+      <button class="btn-accent" onclick="navigateTo('shop')">Shop All Rides</button>
+    </section>
+  </div>
+
+  <!-- ==================== SHOP ==================== -->
+  <div class="page" id="page-shop">
+    <div class="shop-header">
+      <div class="section-label">Shop</div>
+      <h2 class="section-heading">Find your ride.</h2>
+      <p class="section-desc" style="margin:0 auto">Every ride is NZ compliant, warranty-backed, and ships nationwide.</p>
+      <div class="filter-bar">
+        <button class="fb active" onclick="filterProducts('all',this)">All Rides</button>
+        <button class="fb" onclick="filterProducts('ebike',this)">E-Bikes</button>
+        <button class="fb" onclick="filterProducts('escooter',this)">E-Scooters</button>
+      </div>
+    </div>
+    <div class="shop-grid" id="shopGrid">
+      <div class="sc" data-type="ebike"><div class="sc-img" style="background-image:url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&q=80')"><span class="pc-badge">Sale</span></div><div class="sc-body"><div class="sc-type">E-Bike · Pro</div><h3 class="sc-name">Bike Pro</h3><div class="sc-specs"><span class="sc-spec">250W</span><span class="sc-spec">80 km range</span><span class="sc-spec">24 kg</span><span class="sc-spec">4 hr charge</span></div><div class="sc-bottom"><div class="sc-price-wrap"><span class="sc-price-was">Was $1,299</span><span class="sc-price">$649</span></div><button class="sc-btn" onclick="openModal('Bike Pro','649','1,299','https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=200&q=80')">Add to Cart</button></div></div></div>
+      <div class="sc" data-type="ebike"><div class="sc-img" style="background-image:url('https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80')"></div><div class="sc-body"><div class="sc-type">E-Bike · Everyday</div><h3 class="sc-name">Bike Cruiser</h3><div class="sc-specs"><span class="sc-spec">250W</span><span class="sc-spec">45 km range</span><span class="sc-spec">22 kg</span><span class="sc-spec">3.5 hr charge</span></div><div class="sc-bottom"><div class="sc-price-wrap"><span class="sc-price-was">Was $899</span><span class="sc-price">$499</span></div><button class="sc-btn" onclick="openModal('Bike Cruiser','499','899','https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=200&q=80')">Add to Cart</button></div></div></div>
+      <div class="sc" data-type="escooter"><div class="sc-img" style="background-image:url('https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=800&q=80')"><span class="pc-badge">Sale</span></div><div class="sc-body"><div class="sc-type">E-Scooter · Pro</div><h3 class="sc-name">Scooter Pro</h3><div class="sc-specs"><span class="sc-spec">350W</span><span class="sc-spec">55 km range</span><span class="sc-spec">16 kg</span><span class="sc-spec">4 hr charge</span></div><div class="sc-bottom"><div class="sc-price-wrap"><span class="sc-price-was">Was $899</span><span class="sc-price">$599</span></div><button class="sc-btn" onclick="openModal('Scooter Pro','599','899','https://images.unsplash.com/photo-1601758125946-6ec2ef64daf8?w=200&q=80')">Add to Cart</button></div></div></div>
+      <div class="sc" data-type="escooter"><div class="sc-img" style="background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=800&q=80')"></div><div class="sc-body"><div class="sc-type">E-Scooter · Everyday</div><h3 class="sc-name">Scooter Dart</h3><div class="sc-specs"><span class="sc-spec">300W</span><span class="sc-spec">30 km range</span><span class="sc-spec">13 kg</span><span class="sc-spec">3 hr charge</span></div><div class="sc-bottom"><div class="sc-price-wrap"><span class="sc-price-was">Was $749</span><span class="sc-price">$449</span></div><button class="sc-btn" onclick="openModal('Scooter Dart','449','749','https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=200&q=80')">Add to Cart</button></div></div></div>
+    </div>
+  </div>
+
+  <!-- ==================== ABOUT ==================== -->
+  <div class="page" id="page-about">
+    <div class="about-hero">
+      <div class="about-hero-text">
+        <div class="section-label">About Us</div>
+        <h2 class="section-heading">A bunch of mates who'd rather be outside.</h2>
+        <p class="section-desc" style="margin-top:20px">We started Electric Rides because we believe the best way to experience New Zealand is on two wheels — just with a bit of extra push.</p>
+      </div>
+      <div class="about-img"></div>
+    </div>
+    <section class="about-content">
+      <div class="section-label reveal">Our Story</div>
+      <h2 class="section-heading reveal">Friends first. Business second.</h2>
+      <div class="about-cols reveal">
+        <div>
+          <p>We're a group of mates from Auckland who share a borderline obsessive love for the outdoors. Surfing, mountain biking, trail running, camping — if it involves fresh air and sore legs, we're in. A couple of years ago one of us picked up an e-bike on a whim, and honestly, it changed everything. Suddenly the commute to work was something to look forward to. Weekend rides got longer. Hills stopped being a dealbreaker.</p>
+          <p>We got hooked — and we wanted to make that feeling accessible to everyone, not just people willing to drop five grand on a European brand. So we started Electric Rides in 2023.</p>
+        </div>
+        <div>
+          <p>Three years in, we've sold over 200 rides across New Zealand and learned a lot along the way. We test every model ourselves — on Auckland's hills, Wellington's wind, Christchurch's flats, and whatever the Coromandel throws at us. If a ride can't handle real NZ conditions, it doesn't make our range.</p>
+          <p>We're not a faceless import operation. We're real people who answer the phone, meet you for a pickup in central Auckland, and genuinely care that your ride works as well on month six as it did on day one. When you buy from us, you're supporting a small Kiwi crew doing something we love.</p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="about-values reveal">
+        <div class="av"><div class="av-n">01</div><h4>We ride what we sell</h4><p>Every product in our range has been personally tested by our team on NZ roads and trails. No exceptions.</p></div>
+        <div class="av"><div class="av-n">02</div><h4>Real people, real support</h4><p>No chatbots, no overseas call centres. You'll talk to one of us — and we'll actually help.</p></div>
+        <div class="av"><div class="av-n">03</div><h4>Honest about what we are</h4><p>We're a small team. We don't pretend to be a big brand. We think that's a good thing — it means we try harder.</p></div>
+      </div>
+      <div class="kiwi reveal">
+        <div class="kiwi-flag">NZ OWNED</div>
+        <div><h3>Proudly 100% Kiwi Owned</h3><p>Electric Rides is a New Zealand owned and operated business based in Auckland. We've been selling e-bikes and e-scooters to Kiwis for over three years. When you buy from us, your money supports a local team, local support, and a group of friends who genuinely want to get more New Zealanders riding electric. No overseas parent company, no venture capital — just us.</p></div>
+      </div>
+    </section>
+    <section class="info">
+      <div class="section-label reveal">Good to Know</div>
+      <h2 class="section-heading reveal">Shipping, returns & contact.</h2>
+      <div class="info-grid reveal">
+        <div class="info-card"><h3>Shipping & Pickup</h3><p>We ship nationwide across New Zealand. Most orders arrive within 5–10 business days depending on your location.</p><p>Prefer to collect in person? We offer free pickup from central Auckland — just select the option at checkout and we'll arrange a time that works.</p></div>
+        <div class="info-card"><h3>Returns</h3><p>Changed your mind? No worries. We accept returns on unused, undamaged products within 7 days of delivery. Items must be in original packaging and in the same condition you received them.</p><p>If your ride arrives damaged or faulty, get in touch straight away and we'll sort it out — no questions asked.</p></div>
+      </div>
+    </section>
+    <section class="contact">
+      <div class="section-label reveal">Get in Touch</div>
+      <h2 class="section-heading reveal">We'd love to hear from you.</h2>
+      <div class="contact-grid reveal">
+        <div class="cc"><h4>Email</h4><p><a href="/cdn-cgi/l/email-protection#a1c9c4cdcdcee1c4cdc4c2d5d3c8c2d3c8c5c4d28fc2ce8fcfdb"><span class="__cf_email__" data-cfemail="2b434e4747446b4e474e485f59424859424f4e58054844054551">[email&#160;protected]</span></a></p></div>
+        <div class="cc"><h4>Phone</h4><p><a href="tel:+64200000000">+64 20 000 0000</a></p><p>Mon–Fri, 9am–5pm NZST</p></div>
+        <div class="cc"><h4>Pickup Location</h4><p>Central Auckland, NZ</p><p>By appointment only</p></div>
+      </div>
+    </section>
+    <section class="cta"><h2>Ready to ride electric?</h2><p>Browse our range and find the perfect ride for the way you move.</p><button class="btn-accent" onclick="navigateTo('shop')">Shop All Rides</button></section>
+  </div>
+
+  <footer>
+    <div class="f-grid">
+      <div class="f-brand"><div class="f-logo"><svg style="height:22px"><use href="#bolt-icon"/></svg><span>Electric Rides</span></div><p>Kiwi-owned e-bikes and e-scooters, built for the way New Zealand moves. Based in Auckland. Riding electric since 2023.</p></div>
+      <div class="f-col"><h4>Shop</h4><a onclick="navigateTo('shop')">All Rides</a><a onclick="navigateTo('shop')">E-Bikes</a><a onclick="navigateTo('shop')">E-Scooters</a></div>
+      <div class="f-col"><h4>Company</h4><a onclick="navigateTo('about')">About Us</a><a onclick="navigateTo('about')">Shipping & Returns</a><a onclick="navigateTo('about')">Contact</a></div>
+    </div>
+    <div class="f-bottom"><span>© 2026 Electric Rides NZ. All rights reserved.</span><span>Proudly Kiwi owned · Auckland, NZ</span></div>
+  </footer>
+
+  <!-- ==================== PURCHASE MODAL ==================== -->
+  <div class="modal-overlay" id="purchaseModal" onclick="closeModalOutside(event)">
+    <div class="modal" style="position:relative">
+      <button class="modal-close" onclick="closeModal()">×</button>
+      <h3>Complete your order</h3>
+      <p class="modal-sub">We'll be in touch to confirm and arrange delivery.</p>
+      <div class="modal-product">
+        <div class="modal-product-img" id="modalImg"></div>
+        <div>
+          <div class="modal-product-name" id="modalName"></div>
+          <div><span class="modal-product-price" id="modalPrice"></span><span class="modal-product-was" id="modalWas"></span></div>
+        </div>
+      </div>
+      <div class="modal-field"><label>Full Name</label><input type="text" id="orderName" placeholder="e.g. Jamie Tane" /></div>
+      <div class="modal-field"><label>Email</label><input type="email" id="orderEmail" placeholder="jamie@example.co.nz" /></div>
+      <div class="modal-field"><label>Phone</label><input type="tel" id="orderPhone" placeholder="+64 21 000 0000" /></div>
+      <button class="modal-submit" onclick="submitOrder()">Place Order →</button>
+    </div>
+  </div>
+
+  <!-- ==================== ORDER CONFIRMED ==================== -->
+  <div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-box">
+      <div class="confirm-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>Order received!</h2>
+      <p>Thanks — we'll reach out within 24 hours to confirm your order and arrange delivery anywhere in NZ.</p>
+      <div class="confirm-order-detail">
+        <h4>Order Summary</h4>
+        <div class="confirm-order-row"><span>Product</span><span id="confirmProduct" style="font-weight:600"></span></div>
+        <div class="confirm-order-row"><span>Name</span><span id="confirmName" style="color:var(--text-mid)"></span></div>
+        <div class="confirm-order-row"><span>Contact</span><span id="confirmContact" style="color:var(--text-mid)"></span></div>
+        <div class="confirm-order-row"><span style="color:var(--accent)">Total</span><span id="confirmTotal" style="color:var(--accent);font-size:1.2rem"></span></div>
+      </div>
+      <button class="confirm-back" onclick="closeConfirm()">Back to Shop</button>
+    </div>
+  </div>
+
+    <script>
+    function navigateTo(p){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+p).classList.add('active');document.querySelectorAll('.nav-links a[data-page]').forEach(a=>a.classList.remove('active'));const l=document.querySelector('.nav-links a[data-page="'+p+'"]');if(l)l.classList.add('active');window.scrollTo({top:0,behavior:'instant'});closeMobile();handleScroll();setTimeout(()=>{document.querySelectorAll('.reveal').forEach(e=>{e.classList.remove('visible');observer.observe(e)})},60)}
+    function toggleMobile(){document.getElementById('navLinks').classList.toggle('open')}
+    function closeMobile(){document.getElementById('navLinks').classList.remove('open')}
+    function handleScroll(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60)}
+    window.addEventListener('scroll',handleScroll);
+    function filterProducts(t,b){document.querySelectorAll('.fb').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('#shopGrid .sc').forEach(c=>{c.style.display=(t==='all'||c.dataset.type===t)?'block':'none'})}
+    const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})},{threshold:0.12});
+    document.querySelectorAll('.reveal').forEach(e=>observer.observe(e));
+
+    // Modal logic
+    let _modalProduct='', _modalPrice='';
+    function openModal(name, price, was, imgUrl){
+      _modalProduct=name; _modalPrice=price;
+      document.getElementById('modalName').textContent=name;
+      document.getElementById('modalPrice').textContent='$'+price;
+      document.getElementById('modalWas').textContent='Was $'+was;
+      document.getElementById('modalImg').style.backgroundImage='url('+imgUrl+')';
+      document.getElementById('orderName').value='';
+      document.getElementById('orderEmail').value='';
+      document.getElementById('orderPhone').value='';
+      document.getElementById('purchaseModal').classList.add('open');
+      document.body.style.overflow='hidden';
+    }
+    function closeModal(){
+      document.getElementById('purchaseModal').classList.remove('open');
+      document.body.style.overflow='';
+    }
+    function closeModalOutside(e){if(e.target===document.getElementById('purchaseModal'))closeModal()}
+    function submitOrder(){
+      const name=document.getElementById('orderName').value.trim();
+      const email=document.getElementById('orderEmail').value.trim();
+      const phone=document.getElementById('orderPhone').value.trim();
+      if(!name||!email||!phone){alert('Please fill in all fields.');return;}
+      closeModal();
+      document.getElementById('confirmProduct').textContent=_modalProduct;
+      document.getElementById('confirmName').textContent=name;
+      document.getElementById('confirmContact').textContent=email+' · '+phone;
+      document.getElementById('confirmTotal').textContent='$'+_modalPrice+' NZD';
+      document.getElementById('confirmOverlay').classList.add('open');
+    }
+    function closeConfirm(){
+      document.getElementById('confirmOverlay').classList.remove('open');
+      document.body.style.overflow='';
+      navigateTo('shop');
+    }
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeConfirm()}});
+  </script>
+</body>
+</html>
