@@ -59,8 +59,8 @@
     .hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 52px}
     .hero-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1920&q=80') center/cover}
     .hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(19,17,16,0.88) 0%,rgba(19,17,16,0.4) 45%,rgba(19,17,16,0.7) 100%)}
-    .hero-inner{position:relative;width:100%;max-width:1400px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;padding:100px 0 50px} .hero-content{} .hero-img-right{border-radius:24px;overflow:hidden;aspect-ratio:1/1;align-self:center;max-height:520px;background:url('__POSTER_IMG__') center/cover;box-shadow:0 40px 80px rgba(0,0,0,0.5);animation:fadeUp .8s .3s ease both} 
-    .hero-tag{display:inline-block;background:var(--accent-soft);border:1px solid rgba(255,107,61,0.2);padding:10px 24px;border-radius:100px;font-size:1rem;font-weight:600;color:var(--accent);margin-bottom:36px;animation:fadeUp .8s ease both}
+    .hero-inner{position:relative;width:100%;max-width:1400px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:stretch;padding:100px 0 50px} .hero-content{} .hero-img-right{border-radius:24px;overflow:hidden;aspect-ratio:unset;min-height:100%;background:url('__POSTER_IMG__') center/cover;box-shadow:0 40px 80px rgba(0,0,0,0.5);animation:fadeUp .8s .3s ease both} 
+    .hero-tag{display:inline-block;background:var(--accent-soft);border:1px solid rgba(255,107,61,0.2);padding:6px 16px;border-radius:100px;font-size:1rem;font-weight:600;color:var(--accent);margin-bottom:36px;animation:fadeUp .8s ease both}
     .hero h1{font-size:clamp(2.6rem,4.8vw,4.8rem);font-weight:800;line-height:1.08;letter-spacing:-1px;margin-bottom:32px;color:var(--text);animation:fadeUp .8s .1s ease both}
     .hero h1 em{color:var(--accent)}
     .hero-desc{font-size:1.45rem;color:var(--text-mid);max-width:520px;line-height:1.65;margin-bottom:48px;animation:fadeUp .8s .2s ease both;font-weight:300}
@@ -94,7 +94,7 @@
     /* ---- PRODUCTS ---- */
     .products-section{background:var(--surface)}
     .products-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:32px;margin-top:56px}
-    .pc{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm);transition:transform .35s,box-shadow .35s,border-color .35s;border:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr}
+    .pc{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sh-sm);transition:transform .35s,box-shadow .35s,border-color .35s;border:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr}.pc.full{grid-column:1/-1;grid-template-columns:1fr 1fr}.pc.full .pc-img{min-height:380px}.pc.full .pc-body{padding:48px 44px}
     .pc:hover{transform:translateY(-5px);box-shadow:var(--sh);border-color:rgba(255,107,61,0.12)}
     .pc-img{background-size:cover;background-position:center;min-height:320px;position:relative}
     .pc-badge{position:absolute;top:20px;left:20px;background:var(--accent);color:#fff;font-weight:700;font-size:.85rem;padding:7px 16px;border-radius:100px;letter-spacing:.3px}
@@ -383,12 +383,12 @@
       <p class="section-desc reveal">Whether it's your daily commute or a weekend rip — we've got you.</p>
       <div class="categories-grid reveal">
         <div class="cat-card" onclick="navigateTo('shop')">
-          <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1632516643720-e7f5d7d6ecc9?w=900&q=80')"></div>
-          <div class="cat-body"><h3>E-Bikes</h3><p>Power-assisted rides for commuting, trails, and everything in between.</p><span class="cat-link">See the range →</span></div>
-        </div>
-        <div class="cat-card" onclick="navigateTo('shop')">
           <div class="cat-bg" style="background-image:url('__ROAD_IMG__')"></div>
           <div class="cat-body"><h3>E-Scooters</h3><p>Compact, foldable, and fast. The smartest way to get around town.</p><span class="cat-link">See the range →</span></div>
+        </div>
+        <div class="cat-card" onclick="navigateTo('shop')">
+          <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1632516643720-e7f5d7d6ecc9?w=900&q=80')"></div>
+          <div class="cat-body"><h3>E-Bikes</h3><p>Power-assisted rides for commuting, trails, and everything in between.</p><span class="cat-link">See the range →</span></div>
         </div>
       </div>
     </section>
@@ -397,31 +397,35 @@
       <div class="section-label reveal">Our Range</div>
       <h2 class="section-heading reveal">Four rides. Every need covered.</h2>
       <p class="section-desc reveal">Short hops or long hauls — pick the range that fits your life.</p>
-      <div class="products-grid reveal"><div class="pc">
+      <div class="products-grid reveal">
+        <!-- Row 1: Godspeed full width -->
+        <div class="pc full">
           <div class="pc-img" style="background-image:url('__ROAD_IMG__')"><span class="pc-badge new">Sale</span></div>
           <div class="pc-body"><div class="pc-type">E-Scooter · Premium</div><h3 class="pc-name">e-Ride Godspeed</h3>
             <div class="pc-specs"><div class="sp"><span class="sp-label">Top Speed</span><span class="sp-val">70 km/h</span></div><div class="sp"><span class="sp-label">Range</span><span class="sp-val">110 km</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">16 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">4 hrs</span></div></div>
             <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">&nbsp;</span><span class="pc-price">$1,699</span></div><button class="pc-btn" onclick="openModal('e-Ride Godspeed','1,699','',window._ROAD)">Add to Cart</button></div></div>
         </div>
+        <!-- Row 2: Elite + Bike Pro side by side -->
         <div class="pc">
           <div class="pc-img" style="background-image:url('__POSTER_IMG__')"></div>
           <div class="pc-body"><div class="pc-type">E-Scooter · Everyday</div><h3 class="pc-name">e-Ride Elite</h3>
             <div class="pc-specs"><div class="sp"><span class="sp-label">Top Speed</span><span class="sp-val">30 km/h</span></div><div class="sp"><span class="sp-label">Range</span><span class="sp-val">30 km</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">13 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">3 hrs</span></div></div>
             <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">Was $749</span><span class="pc-price">$449</span></div><button class="pc-btn" onclick="openModal('e-Ride Elite','449','749',window._POSTER)">Add to Cart</button></div></div>
         </div>
-      </div><div class="pc">
+        <div class="pc">
           <div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&q=80')"><span class="pc-badge">Sale</span></div>
           <div class="pc-body"><div class="pc-type">E-Bike · Pro</div><h3 class="pc-name">Bike Pro</h3>
             <div class="pc-specs"><div class="sp"><span class="sp-label">Range</span><span class="sp-val">80 km</span></div><div class="sp"><span class="sp-label">Motor</span><span class="sp-val">250W</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">24 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">4 hrs</span></div></div>
             <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">Was $1,299</span><span class="pc-price">$649</span></div><button class="pc-btn" onclick="openModal('Bike Pro','649','1,299','https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=200&q=80')">Add to Cart</button></div></div>
         </div>
-        <div class="pc">
+        <!-- Row 3: Bike Cruiser full width -->
+        <div class="pc full">
           <div class="pc-img" style="background-image:url('https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=800&q=80')"></div>
           <div class="pc-body"><div class="pc-type">E-Bike · Everyday</div><h3 class="pc-name">Bike Cruiser</h3>
             <div class="pc-specs"><div class="sp"><span class="sp-label">Range</span><span class="sp-val">45 km</span></div><div class="sp"><span class="sp-label">Motor</span><span class="sp-val">250W</span></div><div class="sp"><span class="sp-label">Weight</span><span class="sp-val">22 kg</span></div><div class="sp"><span class="sp-label">Charge</span><span class="sp-val">3.5 hrs</span></div></div>
             <div class="pc-bottom"><div class="pc-price-wrap"><span class="pc-price-was">Was $899</span><span class="pc-price">$499</span></div><button class="pc-btn" onclick="openModal('Bike Cruiser','499','899','https://images.unsplash.com/photo-1532298229144-0ec0c57515c7?w=200&q=80')">Add to Cart</button></div></div>
         </div>
-        
+      </div>
     </section>
 
           <div class="ls-img" style="background-image:url('https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=500&q=80')"></div>
